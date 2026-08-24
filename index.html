@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rekap data</title>
+<style>
+  :root{
+    --bg:#09111f;
+    --bg2:#0d1730;
+    --panel:#111d35;
+    --panel2:#152541;
+    --line:#263a5e;
+    --text:#eaf1ff;
+    --muted:#8fa4c6;
+    --accent:#7c8cff;
+    --accent2:#a06cff;
+    --green:#44d19d;
+    --red:#ff7d8d;
+    --amber:#ffc86b;
+    --shadow:0 18px 45px rgba(0,0,0,.28);
+  }
+  *{box-sizing:border-box}
+  html{color-scheme:dark}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--text);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%,rgba(124,140,255,.18),transparent 35%),
+      radial-gradient(circle at 90% 10%,rgba(160,108,255,.14),transparent 28%),
+      linear-gradient(180deg,var(--bg2),var(--bg));
+  }
+  button,input,select,textarea{font:inherit}
+  .app{max-width:1500px;margin:auto;padding:26px}
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:22px
+  }
+  .brand{display:flex;align-items:center;gap:13px}
+  .logo{
+    width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-weight:900;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 28px rgba(124,140,255,.28)
+  }
+  h1{font-size:24px;margin:0;letter-spacing:.2px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:3px}
+  .actions{display:flex;gap:9px;flex-wrap:wrap}
+  .btn{
+    border:1px solid var(--line);background:#14213a;color:var(--text);padding:10px 14px;border-radius:12px;
+    cursor:pointer;transition:.18s ease;font-weight:700
+  }
+  .btn:hover{transform:translateY(-1px);border-color:#496496}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:0}
+  .btn.danger{color:#ffd5da;border-color:#673343;background:#2a1720}
+  .grid-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+  .card{
+    background:linear-gradient(180deg,rgba(22,37,65,.93),rgba(14,27,49,.93));
+    border:1px solid rgba(86,111,153,.28);border-radius:18px;padding:17px 18px;box-shadow:var(--shadow)
+  }
+  .card .label{color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.7px}
+  .card .value{font-size:25px;font-weight:900;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .hint{font-size:12px;color:#7290bc;margin-top:5px}
+  .value.out{color:#ff9aa6}.value.in{color:#64e0ad}.value.net{color:#d6c3ff}
+  .panel{
+    background:rgba(14,27,49,.86);border:1px solid rgba(86,111,153,.28);border-radius:18px;
+    box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px
+  }
+  .panel-head{
+    padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px
+  }
+  .panel-title{font-size:14px;font-weight:900}
+  .panel-note{color:var(--muted);font-size:12px}
+  .import-wrap{padding:16px 18px}
+  textarea{
+    width:100%;min-height:145px;resize:vertical;background:#091426;border:1px solid var(--line);color:#dce8ff;
+    padding:14px;border-radius:14px;outline:none;line-height:1.45
+  }
+  textarea:focus,input:focus,select:focus{border-color:#6e82d9;box-shadow:0 0 0 3px rgba(124,140,255,.11);outline:none}
+  .import-footer{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .helper{font-size:12px;color:var(--muted)}
+  .filters{padding:14px 18px;display:grid;grid-template-columns:1.2fr repeat(3,minmax(150px,.55fr));gap:10px}
+  input,select{
+    width:100%;background:#0c1930;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:12px
+  }
+  .chips{display:flex;gap:8px;flex-wrap:wrap;padding:0 18px 14px}
+  .chip{
+    border:1px solid var(--line);background:#101f39;color:#b9c8e3;padding:8px 11px;border-radius:999px;
+    font-size:12px;font-weight:800;cursor:pointer
+  }
+  .chip.active{background:#243765;border-color:#6c83d4;color:white}
+  .table-wrap{overflow:auto;max-height:520px}
+  table{width:100%;border-collapse:collapse;min-width:900px}
+  thead th{
+    position:sticky;top:0;z-index:2;text-align:left;background:#152747;color:#bcd0ef;border-bottom:1px solid #35517e;
+    font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:12px
+  }
+  tbody td{padding:11px 12px;border-bottom:1px solid rgba(51,74,111,.46);font-size:12.5px}
+  tbody tr:hover{background:rgba(124,140,255,.055)}
+  .money{text-align:right;font-variant-numeric:tabular-nums;font-weight:800}
+  .money.out{color:#ff9aa6}.money.in{color:#64e0ad}
+  .badge{
+    display:inline-flex;align-items:center;padding:5px 8px;border-radius:8px;background:#1b3158;border:1px solid #385888;
+    font-size:11px;font-weight:900;color:#dce9ff
+  }
+  .badge.qris{background:#2b2555;border-color:#594b99;color:#e9ddff}
+  .category{color:#d7e1f4;font-weight:700}
+  .empty{padding:42px 18px;text-align:center;color:var(--muted)}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .summary-table{max-height:360px;overflow:auto}
+  .summary-table table{min-width:0}
+  .summary-table td,.summary-table th{padding:10px 12px}
+  .status{padding:9px 12px;border-radius:10px;font-size:12px;font-weight:700}
+  .status.ok{background:#12352f;color:#82e5c3;border:1px solid #265f53}
+  .status.err{background:#391d25;color:#ffb0ba;border:1px solid #743645}
+  .status.info{background:#182b4c;color:#b8d0f3;border:1px solid #35547f}
+  .footer{color:#6882ab;text-align:center;font-size:11px;padding:6px 0 18px}
+  @media(max-width:900px){
+    .app{padding:16px}.topbar{align-items:flex-start;flex-direction:column}
+    .grid-cards{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr 1fr}.two-col{grid-template-columns:1fr}
+  }
+  @media(max-width:540px){
+    .grid-cards,.filters{grid-template-columns:1fr}.card .value{font-size:21px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">NXS</div>
+      <div>
+        <h1>Rekap Mega</h1>
+        <div class="subtitle"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="exportBtn">Export</button>
+    </div>
+  </div>
+
+  <div class="grid-cards">
+    <div class="card">
+      <div class="label">Total Uang Keluar</div>
+      <div class="value out" id="totalOut">Rp 0</div>
+      <div class="hint" id="outCount">0 transaksi debit</div>
+    </div>
+    <div class="card">
+      <div class="label">Total Uang Masuk</div>
+      <div class="value in" id="totalIn">Rp 0</div>
+      <div class="hint" id="inCount">0 transaksi credit</div>
+    </div>
+    <div class="card">
+      <div class="label">Selisih Masuk - Keluar</div>
+      <div class="value net" id="netTotal">Rp 0</div>
+      <div class="hint">Mengikuti filter aktif</div>
+    </div>
+    <div class="card">
+      <div class="label">Jumlah Transaksi</div>
+      <div class="value" id="trxCount">0</div>
+      <div class="hint" id="channelCount">0 bank / channel</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="panel-title">Masukkan Mega Di Bawah</div>
+        <div class="panel-note"></div>
+      </div>
+      <div id="status" class="status info">Belum ada data</div>
+    </div>
+    <div class="import-wrap">
+      <textarea id="rawInput" spellcheck="false" placeholder="Date Time&#9;Details&#9;Debit&#9;Credit&#9;Category&#10;"></textarea>
+      <div class="import-footer">
+        <div class="helper"></div>
+        <div class="actions">
+          <button class="btn primary" id="processBtn">Rekap Now</button>
+          <button class="btn danger" id="clearBtn">Bersihkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="panel-title">Filter Rekap</div>
+        <div class="panel-note">Semua total dan ringkasan akan mengikuti filter.</div>
+      </div>
+    </div>
+    <div class="filters">
+      <input id="searchInput" type="search" placeholder="Cari category / detail / bank..." />
+      <select id="categoryFilter"><option value="">Semua Category</option></select>
+      <select id="directionFilter">
+        <option value="">Semua Arus</option>
+        <option value="out">Uang Keluar</option>
+        <option value="in">Uang Masuk</option>
+      </select>
+      <input id="dateFilter" type="date" />
+    </div>
+    <div class="chips" id="bankChips"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="panel-title">Data Rekap</div>
+        <div class="panel-note" id="rowInfo">0 data ditampilkan</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date Time</th>
+            <th>Bank / Channel</th>
+            <th style="text-align:right">Uang Keluar</th>
+            <th style="text-align:right">Uang Masuk</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="empty" id="empty">Belum ada data. Paste data Excel lalu klik <b>Proses Rekap</b>.</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Total per Bank</div></div>
+      <div class="summary-table" id="bankSummary"></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Total per Category</div></div>
+      <div class="summary-table" id="categorySummary"></div>
+    </div>
+  </div>
+
+  <div class="footer">NYE NYE NYE</div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+let rows = [];
+let selectedBank = '';
+
+const money = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
+const num = n => new Intl.NumberFormat('id-ID').format(Number(n)||0);
+const esc = s => String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+function parseMoney(v){
+  let s = String(v ?? '').trim();
+  if(!s) return 0;
+  const neg = /^\s*-/.test(s);
+  s = s.replace(/[^\d]/g,'');
+  const n = Number(s || 0);
+  return neg ? -n : n;
+}
+
+function detectChannel(details){
+  const t = String(details || '').toUpperCase();
+  const rules = [
+    [/\b(?:NXPAY|NXSPAY)\b/, 'NXPAY', true],
+    [/\bOASIS\b/, 'OASIS', true],
+    [/\bMINERA\b/, 'MINERA', true],
+    [/\bSTO\b/, 'STO', true],
+    [/\bBCA\b/, 'BCA', false],
+    [/\bBNI\b/, 'BNI', false],
+    [/\bBRI\b/, 'BRI', false],
+    [/\b(?:MANDIRI|MDR)\b/, 'MDR', false]
+  ];
+  for(const [re,name,qris] of rules) if(re.test(t)) return {name,qris};
+  return {name:'LAINNYA',qris:false};
+}
+
+
+function isAdjustKembali(r){
+  return String(r.category || '').trim().toUpperCase() === 'ADJUST KEMBALI';
+}
+
+// Nilai efektif untuk perhitungan dan tampilan rekap:
+// - ADJUST KEMBALI di Debit  -> Debit = 0, Credit dikurangi sebesar Debit
+// - ADJUST KEMBALI di Credit -> Credit = 0, Debit dikurangi sebesar Credit
+function effectiveAmounts(r){
+  const debit = Number(r.debit) || 0;
+  const credit = Number(r.credit) || 0;
+
+  if(isAdjustKembali(r)){
+    if(debit > 0 && credit <= 0){
+      return {out:0, in:-debit, adjusted:true, source:'debit'};
+    }
+    if(credit > 0 && debit <= 0){
+      return {out:-credit, in:0, adjusted:true, source:'credit'};
+    }
+  }
+  return {out:debit, in:credit, adjusted:false, source:''};
+}
+
+function dateKey(s){
+  const text = String(s||'').trim();
+  const m = text.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})/);
+  if(m){
+    const months={JAN:'01',FEB:'02',MAR:'03',APR:'04',MAY:'05',JUN:'06',JUL:'07',AUG:'08',SEP:'09',OCT:'10',NOV:'11',DEC:'12'};
+    const mon=months[m[2].toUpperCase()];
+    if(mon) return `${m[3]}-${mon}-${String(m[1]).padStart(2,'0')}`;
+  }
+  const m2=text.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m2 ? `${m2[1]}-${m2[2]}-${m2[3]}` : '';
+}
+
+function splitLine(line, delimiter){
+  if(delimiter === '\t') return line.split('\t');
+  // CSV sederhana dengan dukungan quote
+  const out=[]; let cur='', quote=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c === '"'){
+      if(quote && line[i+1] === '"'){cur+='"';i++}
+      else quote=!quote;
+    } else if(c===delimiter && !quote){out.push(cur);cur=''}
+    else cur+=c;
+  }
+  out.push(cur); return out;
+}
+
+function normalizeHeader(h){
+  return String(h||'').trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+function parseInput(text){
+  const lines = String(text||'').replace(/\r/g,'').split('\n').filter(x=>x.trim());
+  if(lines.length < 2) throw new Error('Data belum cukup. Pastikan header dan minimal 1 transaksi ikut dipaste.');
+
+  const delimiter = lines[0].includes('\t') ? '\t' : (lines[0].includes(';') ? ';' : ',');
+  const head = splitLine(lines[0],delimiter).map(normalizeHeader);
+  const required = ['date time','details','debit','credit','category'];
+  const idx = Object.fromEntries(required.map(k=>[k,head.indexOf(k)]));
+  const missing = required.filter(k=>idx[k] < 0);
+  if(missing.length) throw new Error('Header tidak terbaca: ' + missing.join(', '));
+
+  return lines.slice(1).map((line,i)=>{
+    const c=splitLine(line,delimiter);
+    const details=(c[idx['details']]||'').trim();
+    const ch=detectChannel(details);
+    return {
+      id:i+1,
+      dateTime:(c[idx['date time']]||'').trim(),
+      dateKey:dateKey(c[idx['date time']]),
+      details,
+      debit:parseMoney(c[idx['debit']]),
+      credit:parseMoney(c[idx['credit']]),
+      category:(c[idx['category']]||'').trim() || 'TANPA CATEGORY',
+      channel:ch.name,
+      qris:ch.qris
+    };
+  }).filter(r=>r.dateTime || r.details || r.debit || r.credit || r.category);
+}
+
+function refreshOptions(){
+  const cats=[...new Set(rows.map(r=>r.category))].sort((a,b)=>a.localeCompare(b,'id'));
+  $('#categoryFilter').innerHTML='<option value="">Semua Category</option>'+cats.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+
+  const banks=['BCA','BNI','BRI','MDR','NXPAY','OASIS','MINERA','STO','LAINNYA'].filter(b=>rows.some(r=>r.channel===b));
+  $('#bankChips').innerHTML=`<button class="chip ${selectedBank===''?'active':''}" data-bank="">SEMUA</button>`+
+    banks.map(b=>`<button class="chip ${selectedBank===b?'active':''}" data-bank="${b}">${b}</button>`).join('');
+  $$('#bankChips .chip').forEach(b=>b.onclick=()=>{selectedBank=b.dataset.bank;refreshOptions();render()});
+}
+
+function filtered(){
+  const q=$('#searchInput').value.trim().toLowerCase();
+  const cat=$('#categoryFilter').value;
+  const dir=$('#directionFilter').value;
+  const d=$('#dateFilter').value;
+  return rows.filter(r=>{
+    if(selectedBank && r.channel!==selectedBank) return false;
+    if(cat && r.category!==cat) return false;
+    const eff=effectiveAmounts(r);
+    if(dir==='out' && !(eff.out!==0)) return false;
+    if(dir==='in' && !(eff.in!==0)) return false;
+    if(d && r.dateKey!==d) return false;
+    if(q && !`${r.dateTime} ${r.details} ${r.category} ${r.channel}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function groupSummary(data,key){
+  const map=new Map();
+  for(const r of data){
+    const k=r[key] || 'LAINNYA';
+    if(!map.has(k)) map.set(k,{name:k,count:0,out:0,in:0});
+    const x=map.get(k); const eff=effectiveAmounts(r); x.count++; x.out+=eff.out; x.in+=eff.in;
+  }
+  return [...map.values()].sort((a,b)=>(b.out+b.in)-(a.out+a.in));
+}
+
+function summaryHTML(data,label){
+  if(!data.length) return '<div class="empty">Belum ada data.</div>';
+  return `<table><thead><tr><th>${label}</th><th>TRX</th><th style="text-align:right">KELUAR</th><th style="text-align:right">MASUK</th></tr></thead>
+  <tbody>${data.map(x=>`<tr><td><b>${esc(x.name)}</b></td><td>${x.count}</td><td class="money out">${num(x.out)}</td><td class="money in">${num(x.in)}</td></tr>`).join('')}</tbody></table>`;
+}
+
+function render(){
+  const data=filtered();
+  const out=data.reduce((s,r)=>s+effectiveAmounts(r).out,0);
+  const inc=data.reduce((s,r)=>s+effectiveAmounts(r).in,0);
+  $('#totalOut').textContent=money(out);
+  $('#totalIn').textContent=money(inc);
+  $('#netTotal').textContent=money(inc-out);
+  $('#trxCount').textContent=num(data.length);
+  $('#outCount').textContent=`${data.filter(r=>effectiveAmounts(r).out!==0).length} transaksi keluar efektif`;
+  $('#inCount').textContent=`${data.filter(r=>effectiveAmounts(r).in!==0).length} transaksi masuk efektif`;
+  $('#channelCount').textContent=`${new Set(data.map(r=>r.channel)).size} bank / channel`;
+  $('#rowInfo').textContent=`${data.length} dari ${rows.length} data ditampilkan`;
+
+  $('#tbody').innerHTML=data.map(r=>{
+    const eff=effectiveAmounts(r);
+    const adjustNote = eff.adjusted
+      ? ` <span class="badge qris" title="ADJUST KEMBALI: nilai dipindahkan menjadi pengurang di sisi lawan">ADJUST</span>`
+      : '';
+    return `
+    <tr title="${esc(r.details)}">
+      <td>${esc(r.dateTime)}</td>
+      <td><span class="badge ${r.qris?'qris':''}">${esc(r.channel)}</span></td>
+      <td class="money out">${eff.out!==0?num(eff.out):'—'}</td>
+      <td class="money in">${eff.in!==0?num(eff.in):'—'}</td>
+      <td class="category">${esc(r.category)}${adjustNote}</td>
+    </tr>`}).join('');
+  $('#empty').style.display=data.length?'none':'block';
+
+  $('#bankSummary').innerHTML=summaryHTML(groupSummary(data,'channel'),'BANK / CHANNEL');
+  $('#categorySummary').innerHTML=summaryHTML(groupSummary(data,'category'),'CATEGORY');
+}
+
+function setStatus(msg,type='info'){
+  const el=$('#status');el.textContent=msg;el.className='status '+type;
+}
+
+function processData(){
+  try{
+    rows=parseInput($('#rawInput').value);
+    selectedBank='';
+    localStorage.setItem('meganxs_raw_v3',$('#rawInput').value);
+    refreshOptions();render();
+    setStatus(`${rows.length} transaksi berhasil dibaca`,'ok');
+  }catch(e){
+    rows=[];refreshOptions();render();setStatus(e.message,'err');
+  }
+}
+
+
+$('#processBtn').onclick=processData;
+$('#clearBtn').onclick=()=>{
+  if(!confirm('Kosongkan semua data MegaNXS di browser ini?')) return;
+  rows=[];selectedBank='';$('#rawInput').value='';localStorage.removeItem('meganxs_raw_v3');
+  refreshOptions();render();setStatus('Data sudah dikosongkan','info');
+};
+['searchInput','categoryFilter','directionFilter','dateFilter'].forEach(id=>{
+  $('#'+id).addEventListener(id==='searchInput'?'input':'change',render);
+});
+$('#exportBtn').onclick=()=>{
+  const data=filtered();
+  if(!data.length){setStatus('Tidak ada data untuk diexport','err');return}
+  const q=v=>`"${String(v??'').replaceAll('"','""')}"`;
+  const csv=['Date Time,Bank / Channel,Uang Keluar Efektif,Uang Masuk Efektif,Category,Debit Asli,Credit Asli,Details',
+    ...data.map(r=>{const eff=effectiveAmounts(r);return [r.dateTime,r.channel,eff.out,eff.in,r.category,r.debit,r.credit,r.details].map(q).join(',')})].join('\n');
+  const blob=new Blob(["\ufeff"+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MegaNXS-Rekap.csv';a.click();URL.revokeObjectURL(a.href);
+};
+
+const saved=localStorage.getItem('meganxs_raw_v3');
+if(saved){$('#rawInput').value=saved;try{rows=parseInput(saved);setStatus(`${rows.length} transaksi tersimpan`,'ok')}catch{}}
+refreshOptions();render();
+</script>
+</body>
+</html>
