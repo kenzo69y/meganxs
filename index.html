@@ -1,70 +1,166 @@
 <!DOCTYPE html>
-<html lang='id'>
+<html lang="id">
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width,initial-scale=1.0'>
-<title>Rekap Mega — MegaNXS V4</title>
-<style>
-:root{--bg:#07101d;--bg2:#0b1630;--panel:#101e36;--panel2:#142744;--line:#294166;--text:#edf3ff;--muted:#8fa7ca;--accent:#7b8cff;--purple:#a56cff;--green:#54daa9;--red:#ff8797;--amber:#ffc96b;--cyan:#65cef5;--shadow:0 18px 50px rgba(0,0,0,.25)}*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',Arial,sans-serif;background:radial-gradient(circle at 8% 0%,rgba(123,140,255,.18),transparent 34%),radial-gradient(circle at 92% 8%,rgba(165,108,255,.13),transparent 30%),linear-gradient(180deg,var(--bg2),var(--bg));background-attachment:fixed}button,input,select,textarea{font:inherit}.app{max-width:1500px;margin:auto;padding:24px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:13px}.logo{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-weight:950;letter-spacing:.5px;background:linear-gradient(135deg,var(--accent),var(--purple));box-shadow:0 12px 28px rgba(123,140,255,.3)}h1{font-size:24px;margin:0}.subtitle{color:var(--muted);font-size:12px;margin-top:3px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#14233d;color:var(--text);padding:10px 13px;border-radius:11px;cursor:pointer;font-weight:800;transition:.18s}.btn:hover{transform:translateY(-1px);border-color:#607db0}.btn.primary{border:0;background:linear-gradient(135deg,var(--accent),var(--purple))}.btn.danger{background:#2b1721;border-color:#6a3444;color:#ffd6dc}.btn.small{padding:8px 10px;font-size:12px}.panel{background:rgba(14,27,49,.9);border:1px solid rgba(91,121,168,.27);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;margin-bottom:16px}.panel-head{padding:15px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-title{font-size:14px;font-weight:900}.panel-note{font-size:11.5px;color:var(--muted);margin-top:2px}.import-wrap{padding:15px 17px}.dropzone{border:1px dashed #49658f;border-radius:14px;background:#0a172a;padding:10px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#9eb5d5;font-size:12px}.dropzone.drag{border-color:var(--accent);background:#112246}.file-label{cursor:pointer;color:#dbe6ff;font-weight:800}.file-label input{display:none}textarea{width:100%;min-height:128px;resize:vertical;background:#081426;border:1px solid var(--line);color:#e0eaff;padding:13px;border-radius:13px;outline:none;line-height:1.45}textarea:focus,input:focus,select:focus{border-color:#7187dc;box-shadow:0 0 0 3px rgba(123,140,255,.11);outline:none}.import-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;flex-wrap:wrap}.helper{font-size:11px;color:var(--muted)}.status{padding:8px 11px;border-radius:10px;font-size:11.5px;font-weight:800;white-space:nowrap}.status.info{background:#172a49;color:#bdd2f1;border:1px solid #35547c}.status.ok{background:#12362f;color:#86e8c6;border:1px solid #296154}.status.err{background:#3a1c25;color:#ffb8c1;border:1px solid #723746}.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:16px 0}.kpi{background:linear-gradient(180deg,rgba(23,40,70,.95),rgba(13,27,49,.95));border:1px solid rgba(91,121,168,.27);border-radius:16px;padding:15px 16px;box-shadow:var(--shadow)}.kpi .label{font-size:10.5px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.7px}.kpi .value{font-size:22px;font-weight:950;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi .hint{font-size:11px;color:#748fb7;margin-top:4px}.in{color:var(--green)}.out{color:var(--red)}.net{color:#d7c4ff}.adjust{color:var(--amber)}.filters{padding:13px 16px;display:grid;grid-template-columns:1.25fr repeat(3,minmax(145px,.55fr)) auto;gap:9px}.filters input,.filters select{width:100%;background:#0a1830;border:1px solid var(--line);color:var(--text);padding:10px 11px;border-radius:11px}.chips{display:flex;gap:7px;flex-wrap:wrap;padding:0 16px 13px}.chip{border:1px solid var(--line);background:#101f39;color:#b9c9e3;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:900;cursor:pointer}.chip.active{background:#273d70;border-color:#748ee5;color:white}.alert{display:none;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;margin-bottom:15px;border-radius:13px;background:#352518;border:1px solid #72522b;color:#ffd995;font-size:12px}.tabs{display:flex;gap:7px;overflow:auto;padding:6px;background:#0b1729;border:1px solid rgba(91,121,168,.27);border-radius:14px;margin-bottom:14px}.tab{white-space:nowrap;border:0;background:transparent;color:#8fa7ca;padding:9px 12px;border-radius:9px;cursor:pointer;font-weight:850;font-size:12px}.tab.active{background:linear-gradient(135deg,#243b68,#342d67);color:#fff}.view{display:none}.view.active{display:block}.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.three{display:grid;grid-template-columns:1.1fr .9fr .9fr;gap:15px}.mini-card{background:rgba(14,27,49,.88);border:1px solid rgba(91,121,168,.27);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}.mini-head{padding:13px 15px;border-bottom:1px solid var(--line);font-size:12px;font-weight:900}.mini-body{padding:13px 15px}.rowbar{margin-bottom:12px}.rowbar:last-child{margin-bottom:0}.rowtop{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;margin-bottom:5px}.bar{height:7px;border-radius:999px;background:#0a1426;overflow:hidden}.bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--purple))}.metric-line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(50,74,111,.45);font-size:12px}.metric-line:last-child{border:0}.metric-line strong{font-variant-numeric:tabular-nums}.table-wrap{overflow:auto;max-height:570px}table{width:100%;border-collapse:collapse;min-width:820px}th{position:sticky;top:0;z-index:2;background:#152847;color:#bcd1ef;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;padding:11px;border-bottom:1px solid #36527e}td{padding:10px 11px;border-bottom:1px solid rgba(50,74,111,.45);font-size:12px}tbody tr{transition:.15s}tbody tr:hover{background:rgba(123,140,255,.055)}tbody tr.clickable{cursor:pointer}.money{text-align:right;font-variant-numeric:tabular-nums;font-weight:850}.badge{display:inline-flex;align-items:center;gap:5px;border-radius:8px;padding:5px 8px;background:#1a3157;border:1px solid #365984;color:#dce9ff;font-size:10.5px;font-weight:900}.badge.qris{background:#2a2654;border-color:#5c4c9b;color:#eaddff}.badge.unknown{background:#402621;border-color:#75453b;color:#ffc5ae}.badge.adj{background:#3b301a;border-color:#735d2f;color:#ffd98a}.empty{padding:36px 16px;text-align:center;color:var(--muted);font-size:12px}.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.summary-table{overflow:auto;max-height:520px}.summary-table table{min-width:650px}.note-box{border:1px solid #66552c;background:#2d2618;border-radius:12px;padding:11px 13px;color:#efd691;font-size:11.5px;line-height:1.5}.modal{position:fixed;inset:0;background:rgba(3,8,16,.72);display:none;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.open{display:flex}.modal-card{width:min(680px,100%);max-height:86vh;overflow:auto;background:#101d34;border:1px solid #3a557e;border-radius:18px;box-shadow:0 28px 80px rgba(0,0,0,.48)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:15px 17px;border-bottom:1px solid var(--line)}.modal-body{padding:16px}.detail-grid{display:grid;grid-template-columns:150px 1fr;gap:9px;font-size:12px}.detail-grid .key{color:var(--muted)}.detail-text{background:#091426;border:1px solid var(--line);padding:12px;border-radius:11px;line-height:1.5;word-break:break-word}.footer{text-align:center;color:#607ba5;font-size:10.5px;padding:4px 0 15px}@media(max-width:1050px){.kpis{grid-template-columns:repeat(3,1fr)}.three{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}.filters .reset{grid-column:span 2}.two{grid-template-columns:1fr}}@media(max-width:620px){.app{padding:13px}.topbar{align-items:flex-start;flex-direction:column}.kpis{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr}.filters .reset{grid-column:auto}.kpi .value{font-size:18px}.panel-head{align-items:flex-start;flex-direction:column}.dropzone{align-items:flex-start;flex-direction:column}.detail-grid{grid-template-columns:1fr}.detail-grid .key{margin-top:5px}}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Rekap Mega — MegaNXS V4.1</title>
+<link rel="stylesheet" href="styles-v41.css">
 </head>
 <body>
-<div class='app'>
-  <div class='topbar'><div class='brand'><div class='logo'>NXS</div><div><h1>Rekap Mega</h1><div class='subtitle'>MegaNXS V4 Professional · Bank / QRIS · Category · Adjustment Audit</div></div></div><div class='actions'><button class='btn' id='exportBtn'>Export CSV</button></div></div>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">NXS</div>
+      <div>
+        <h1>Rekap Mega</h1>
+        <div class="subtitle">MegaNXS V4.1 Professional · Excel XLSX · Bank / QRIS · Adjustment Audit</div>
+      </div>
+    </div>
+    <div class="actions"><button class="btn" id="exportBtn">Export CSV</button></div>
+  </div>
 
-  <div class='panel'><div class='panel-head'><div><div class='panel-title'>Masukkan Mega Di Bawah</div><div class='panel-note'>Paste langsung dari Excel, atau upload file CSV / TSV.</div></div><div id='status' class='status info'>Belum ada data</div></div><div class='import-wrap'><div class='dropzone' id='dropzone'><span>Tarik file CSV / TSV ke sini, atau pilih file.</span><label class='file-label'>Pilih File <input id='fileInput' type='file' accept='.csv,.tsv,.txt,text/csv,text/tab-separated-values'></label></div><textarea id='rawInput' spellcheck='false' placeholder='Date Time&#9;Details&#9;Debit&#9;Credit&#9;Category&#10;'></textarea><div class='import-footer'><div class='helper'>QRIS diprioritaskan: NXPAY · OASIS · MINERA · STO. ADJUST KEMBALI dihitung sebagai pengurang sisi lawan.</div><div class='actions'><button class='btn primary' id='processBtn'>Rekap Now</button><button class='btn danger' id='clearBtn'>Bersihkan</button></div></div></div></div>
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="panel-title">Masukkan Mega Di Bawah</div>
+        <div class="panel-note">Paste dari Excel atau upload file Excel langsung.</div>
+      </div>
+      <div id="status" class="status info">Belum ada data</div>
+    </div>
+    <div class="import-wrap">
+      <div class="dropzone" id="dropzone">
+        <div class="drop-left">
+          <div class="file-icon">📊</div>
+          <div class="file-copy">
+            <div class="file-title">Upload Excel / CSV</div>
+            <div class="file-sub">Mendukung .xlsx, .xls, .csv, .tsv, dan .txt · sheet dengan header Mega akan dideteksi otomatis</div>
+          </div>
+        </div>
+        <label class="file-label">Pilih File
+          <input id="fileInput" type="file" accept=".xlsx,.xls,.csv,.tsv,.txt,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv,text/tab-separated-values">
+        </label>
+      </div>
 
-  <div class='kpis'><div class='kpi'><div class='label'>Total Uang Masuk</div><div class='value in' id='totalIn'>Rp 0</div><div class='hint' id='inCount'>0 transaksi masuk</div></div><div class='kpi'><div class='label'>Total Uang Keluar</div><div class='value out' id='totalOut'>Rp 0</div><div class='hint' id='outCount'>0 transaksi keluar</div></div><div class='kpi'><div class='label'>Selisih Bersih</div><div class='value net' id='netTotal'>Rp 0</div><div class='hint'>Masuk − Keluar</div></div><div class='kpi'><div class='label'>Adjustment</div><div class='value adjust' id='adjustTotal'>Rp 0</div><div class='hint' id='adjustCount'>0 adjust kembali</div></div><div class='kpi'><div class='label'>Transaksi</div><div class='value' id='trxCount'>0</div><div class='hint' id='bankCount'>0 Bank / QRIS</div></div></div>
+      <textarea id="rawInput" spellcheck="false" placeholder="Date Time&#9;Details&#9;Debit&#9;Credit&#9;Category&#10;"></textarea>
 
-  <div class='alert' id='unknownAlert'><span id='unknownText'>Ada data Bank / QRIS yang belum terbaca.</span><button class='btn small' id='unknownBtn'>Lihat Detail</button></div>
+      <div class="import-footer">
+        <div class="helper">QRIS diprioritaskan: NXPAY · OASIS · MINERA · STO. ADJUST KEMBALI dihitung sebagai pengurang sisi lawan.</div>
+        <div class="actions">
+          <button class="btn primary" id="processBtn">Rekap Now</button>
+          <button class="btn danger" id="clearBtn">Bersihkan</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <div class='panel'><div class='panel-head'><div><div class='panel-title'>Filter Rekap</div><div class='panel-note'>KPI dan seluruh tab mengikuti filter aktif.</div></div></div><div class='filters'><input id='searchInput' type='search' placeholder='Cari category / details / bank...'><select id='categoryFilter'><option value=''>Semua Category</option></select><select id='directionFilter'><option value=''>Semua Arus</option><option value='out'>Uang Keluar</option><option value='in'>Uang Masuk</option><option value='adjust'>Adjust Kembali</option></select><input id='dateFilter' type='date'><button class='btn reset' id='resetFilter'>Reset Filter</button></div><div class='chips' id='bankChips'></div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="label">Total Uang Masuk</div><div class="value in" id="totalIn">Rp 0</div><div class="hint" id="inCount">0 transaksi masuk</div></div>
+    <div class="kpi"><div class="label">Total Uang Keluar</div><div class="value out" id="totalOut">Rp 0</div><div class="hint" id="outCount">0 transaksi keluar</div></div>
+    <div class="kpi"><div class="label">Selisih Bersih</div><div class="value net" id="netTotal">Rp 0</div><div class="hint">Masuk − Keluar</div></div>
+    <div class="kpi"><div class="label">Adjustment</div><div class="value adjust" id="adjustTotal">Rp 0</div><div class="hint" id="adjustCount">0 adjust kembali</div></div>
+    <div class="kpi"><div class="label">Transaksi</div><div class="value" id="trxCount">0</div><div class="hint" id="bankCount">0 Bank / QRIS</div></div>
+  </div>
 
-  <div class='tabs'><button class='tab active' data-tab='overview'>Overview</button><button class='tab' data-tab='bank'>Bank / QRIS</button><button class='tab' data-tab='category'>Category</button><button class='tab' data-tab='detail'>Detail Transaksi</button><button class='tab' data-tab='adjustment'>Adjustment</button></div>
+  <div class="alert" id="unknownAlert">
+    <span id="unknownText">Ada data Bank / QRIS yang belum terbaca.</span>
+    <button class="btn small" id="unknownBtn">Lihat Detail</button>
+  </div>
 
-  <section class='view active' id='view-overview'><div class='three'><div class='mini-card'><div class='mini-head'>Bank / QRIS Terbesar</div><div class='mini-body' id='bankBars'><div class='empty'>Belum ada data.</div></div></div><div class='mini-card'><div class='mini-head'>Category Terbesar</div><div class='mini-body' id='categoryBars'><div class='empty'>Belum ada data.</div></div></div><div class='mini-card'><div class='mini-head'>Audit Cepat</div><div class='mini-body' id='auditBox'><div class='empty'>Belum ada data.</div></div></div></div></section>
+  <div class="panel">
+    <div class="panel-head">
+      <div><div class="panel-title">Filter Rekap</div><div class="panel-note">KPI dan seluruh tab mengikuti filter aktif.</div></div>
+    </div>
+    <div class="filters">
+      <input id="searchInput" type="search" placeholder="Cari category / details / bank...">
+      <select id="categoryFilter"><option value="">Semua Category</option></select>
+      <select id="directionFilter">
+        <option value="">Semua Arus</option>
+        <option value="out">Uang Keluar</option>
+        <option value="in">Uang Masuk</option>
+        <option value="adjust">Adjust Kembali</option>
+      </select>
+      <input id="dateFilter" type="date">
+      <button class="btn reset" id="resetFilter">Reset Filter</button>
+    </div>
+    <div class="chips" id="bankChips"></div>
+  </div>
 
-  <section class='view' id='view-bank'><div class='panel'><div class='panel-head'><div><div class='panel-title'>Rekap per Bank / QRIS</div><div class='panel-note'>Masuk, keluar, selisih dan jumlah transaksi.</div></div></div><div class='summary-table' id='bankSummary'></div></div></section>
+  <div class="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="bank">Bank / QRIS</button>
+    <button class="tab" data-tab="category">Category</button>
+    <button class="tab" data-tab="detail">Detail Transaksi</button>
+    <button class="tab" data-tab="adjustment">Adjustment</button>
+  </div>
 
-  <section class='view' id='view-category'><div class='panel'><div class='panel-head'><div><div class='panel-title'>Rekap per Category</div><div class='panel-note'>Category adalah pengganti Note pada sistem sebelumnya.</div></div></div><div class='summary-table' id='categorySummary'></div></div></section>
+  <section class="view active" id="view-overview">
+    <div class="three">
+      <div class="mini-card"><div class="mini-head">Bank / QRIS Terbesar</div><div class="mini-body" id="bankBars"><div class="empty">Belum ada data.</div></div></div>
+      <div class="mini-card"><div class="mini-head">Category Terbesar</div><div class="mini-body" id="categoryBars"><div class="empty">Belum ada data.</div></div></div>
+      <div class="mini-card"><div class="mini-head">Audit Cepat</div><div class="mini-body" id="auditBox"><div class="empty">Belum ada data.</div></div></div>
+    </div>
+  </section>
 
-  <section class='view' id='view-detail'><div class='panel'><div class='panel-head'><div><div class='panel-title'>Detail Transaksi</div><div class='panel-note' id='rowInfo'>0 data ditampilkan</div></div></div><div class='table-wrap'><table><thead><tr><th>No</th><th>Date Time</th><th>Bank / QRIS</th><th style='text-align:right'>Uang Keluar</th><th style='text-align:right'>Uang Masuk</th><th>Category</th></tr></thead><tbody id='detailBody'></tbody></table><div class='empty' id='detailEmpty'>Belum ada data.</div></div><div class='pager'><button class='btn small' id='prevPage'>← Sebelumnya</button><span id='pageInfo'>Halaman 1 / 1</span><button class='btn small' id='nextPage'>Berikutnya →</button></div></div></section>
+  <section class="view" id="view-bank">
+    <div class="panel">
+      <div class="panel-head"><div><div class="panel-title">Rekap per Bank / QRIS</div><div class="panel-note">Masuk, keluar, selisih dan jumlah transaksi.</div></div></div>
+      <div class="summary-table" id="bankSummary"></div>
+    </div>
+  </section>
 
-  <section class='view' id='view-adjustment'><div class='panel'><div class='panel-head'><div><div class='panel-title'>Audit ADJUST KEMBALI</div><div class='panel-note'>Adjustment tetap terlihat walaupun tidak dihitung sebagai transaksi normal pada sisi asal.</div></div></div><div class='import-wrap'><div class='note-box'>Aturan: ADJUST KEMBALI di <b>Debit</b> → Debit tidak dihitung dan nominal menjadi pengurang Credit. ADJUST KEMBALI di <b>Credit</b> → Credit tidak dihitung dan nominal menjadi pengurang Debit.</div></div><div class='table-wrap'><table><thead><tr><th>Date Time</th><th>Bank / QRIS</th><th>Sumber Asli</th><th style='text-align:right'>Nominal</th><th>Dampak Rekap</th></tr></thead><tbody id='adjustBody'></tbody></table><div class='empty' id='adjustEmpty'>Tidak ada ADJUST KEMBALI pada data ini.</div></div></div></section>
+  <section class="view" id="view-category">
+    <div class="panel">
+      <div class="panel-head"><div><div class="panel-title">Rekap per Category</div><div class="panel-note">Ringkasan transaksi berdasarkan Category.</div></div></div>
+      <div class="summary-table" id="categorySummary"></div>
+    </div>
+  </section>
 
-  <div class='footer'>MegaNXS V4 Professional</div>
+  <section class="view" id="view-detail">
+    <div class="panel">
+      <div class="panel-head"><div><div class="panel-title">Detail Transaksi</div><div class="panel-note" id="rowInfo">0 data ditampilkan</div></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>No</th><th>Date Time</th><th>Bank / QRIS</th><th style="text-align:right">Uang Keluar</th><th style="text-align:right">Uang Masuk</th><th>Category</th></tr></thead>
+          <tbody id="detailBody"></tbody>
+        </table>
+        <div class="empty" id="detailEmpty">Belum ada data.</div>
+      </div>
+      <div class="pager">
+        <button class="btn small" id="prevPage">← Sebelumnya</button>
+        <span id="pageInfo">Halaman 1 / 1</span>
+        <button class="btn small" id="nextPage">Berikutnya →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-adjustment">
+    <div class="panel">
+      <div class="panel-head">
+        <div><div class="panel-title">Audit ADJUST KEMBALI</div><div class="panel-note">Adjustment tetap terlihat untuk pengecekan.</div></div>
+      </div>
+      <div class="import-wrap">
+        <div class="note-box">Aturan: ADJUST KEMBALI di <b>Debit</b> → Debit tidak dihitung dan nominal menjadi pengurang Credit. ADJUST KEMBALI di <b>Credit</b> → Credit tidak dihitung dan nominal menjadi pengurang Debit.</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date Time</th><th>Bank / QRIS</th><th>Sumber Asli</th><th style="text-align:right">Nominal</th><th>Dampak Rekap</th></tr></thead>
+          <tbody id="adjustBody"></tbody>
+        </table>
+        <div class="empty" id="adjustEmpty">Tidak ada ADJUST KEMBALI pada data ini.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">MegaNXS V4.1 Professional</div>
 </div>
 
-<div class='modal' id='modal'><div class='modal-card'><div class='modal-head'><strong>Detail Transaksi</strong><button class='btn small' id='closeModal'>Tutup</button></div><div class='modal-body' id='modalBody'></div></div></div>
-
-<script>
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];let rows=[],selectedBank='',activeTab='overview',detailPage=1;const pageSize=50;const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0),num=n=>new Intl.NumberFormat('id-ID').format(Number(n)||0),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function parseMoney(v){let s=String(v??'').trim();if(!s)return 0;const neg=/^\s*-/.test(s);s=s.replace(/[^\d]/g,'');return (neg?-1:1)*Number(s||0)}
-function detectBank(details){const t=String(details||'').toUpperCase(),rules=[[/\b(?:NXPAY|NXSPAY)\b/,'NXPAY','qris'],[/\bOASIS\b/,'OASIS','qris'],[/\bMINERA\b/,'MINERA','qris'],[/\bSTO\b/,'STO','qris'],[/\bBCA\b/,'BCA','bank'],[/\bBNI\b/,'BNI','bank'],[/\bBRI\b/,'BRI','bank'],[/\b(?:MANDIRI|MDR)\b/,'MDR','bank']];for(const [re,name,type] of rules)if(re.test(t))return{name,type,known:true};return{name:'BELUM TERBACA',type:'unknown',known:false}}
-function isAdjust(r){return String(r.category||'').toUpperCase().includes('ADJUST KEMBALI')}
-function effective(r){const d=Number(r.debit)||0,c=Number(r.credit)||0;if(isAdjust(r)){if(d>0&&c<=0)return{out:0,in:-d,adjusted:true,source:'Debit',amount:d,effect:'Mengurangi Uang Masuk'};if(c>0&&d<=0)return{out:-c,in:0,adjusted:true,source:'Credit',amount:c,effect:'Mengurangi Uang Keluar'}}return{out:d,in:c,adjusted:false,source:'',amount:0,effect:''}}
-function dateKey(s){const t=String(s||'').trim(),m=t.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})/),mons={JAN:'01',FEB:'02',MAR:'03',APR:'04',MAY:'05',JUN:'06',JUL:'07',AUG:'08',SEP:'09',OCT:'10',NOV:'11',DEC:'12'};if(m&&mons[m[2].toUpperCase()])return`${m[3]}-${mons[m[2].toUpperCase()]}-${String(m[1]).padStart(2,'0')}`;const m2=t.match(/^(\d{4})-(\d{2})-(\d{2})/);return m2?`${m2[1]}-${m2[2]}-${m2[3]}`:''}
-function splitLine(line,d){if(d==='\t')return line.split('\t');let out=[],cur='',quote=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(quote&&line[i+1]==='"'){cur+='"';i++}else quote=!quote}else if(c===d&&!quote){out.push(cur);cur=''}else cur+=c}out.push(cur);return out}
-function parseInput(text){const lines=String(text||'').replace(/\r/g,'').split('\n').filter(x=>x.trim());if(lines.length<2)throw new Error('Header dan minimal 1 transaksi harus ikut dipaste.');const d=lines[0].includes('\t')?'\t':lines[0].includes(';')?';':',',head=splitLine(lines[0],d).map(x=>String(x).trim().toLowerCase().replace(/\s+/g,' ')),req=['date time','details','debit','credit','category'],idx=Object.fromEntries(req.map(k=>[k,head.indexOf(k)])),missing=req.filter(k=>idx[k]<0);if(missing.length)throw new Error('Header tidak terbaca: '+missing.join(', '));return lines.slice(1).map((line,i)=>{const c=splitLine(line,d),details=(c[idx['details']]||'').trim(),b=detectBank(details);return{id:i+1,dateTime:(c[idx['date time']]||'').trim(),dateKey:dateKey(c[idx['date time']]),details,debit:parseMoney(c[idx.debit]),credit:parseMoney(c[idx.credit]),category:(c[idx.category]||'').trim()||'TANPA CATEGORY',bank:b.name,type:b.type,known:b.known}}).filter(r=>r.dateTime||r.details||r.debit||r.credit)}
-function setStatus(t,type='info'){const e=$('#status');e.textContent=t;e.className='status '+type}
-function filtered(){const q=$('#searchInput').value.trim().toLowerCase(),cat=$('#categoryFilter').value,dir=$('#directionFilter').value,date=$('#dateFilter').value;return rows.filter(r=>{const e=effective(r);if(selectedBank&&r.bank!==selectedBank)return false;if(cat&&r.category!==cat)return false;if(dir==='out'&&e.out===0)return false;if(dir==='in'&&e.in===0)return false;if(dir==='adjust'&&!e.adjusted)return false;if(date&&r.dateKey!==date)return false;if(q&&!`${r.dateTime} ${r.details} ${r.category} ${r.bank}`.toLowerCase().includes(q))return false;return true})}
-function group(data,key){const m=new Map;for(const r of data){const k=r[key]||'LAINNYA',e=effective(r);if(!m.has(k))m.set(k,{name:k,count:0,out:0,in:0,adjust:0});const x=m.get(k);x.count++;x.out+=e.out;x.in+=e.in;if(e.adjusted)x.adjust++}return[...m.values()].map(x=>({...x,net:x.in-x.out,volume:Math.abs(x.in)+Math.abs(x.out)})).sort((a,b)=>b.volume-a.volume)}
-function refreshOptions(){const cur=$('#categoryFilter').value,cats=[...new Set(rows.map(r=>r.category))].sort((a,b)=>a.localeCompare(b,'id'));$('#categoryFilter').innerHTML=`<option value=''>Semua Category</option>`+cats.map(x=>`<option value='${esc(x)}'>${esc(x)}</option>`).join('');if(cats.includes(cur))$('#categoryFilter').value=cur;const order=['BCA','BNI','BRI','MDR','NXPAY','OASIS','MINERA','STO','BELUM TERBACA'],banks=order.filter(x=>rows.some(r=>r.bank===x));$('#bankChips').innerHTML=`<button class='chip ${selectedBank===''?'active':''}' data-bank=''>SEMUA</button>`+banks.map(b=>`<button class='chip ${selectedBank===b?'active':''}' data-bank='${b}'>${b}</button>`).join('');$$('#bankChips .chip').forEach(b=>b.onclick=()=>{selectedBank=b.dataset.bank;detailPage=1;refreshOptions();renderAll()})}
-function renderCards(data){const out=data.reduce((s,r)=>s+effective(r).out,0),inc=data.reduce((s,r)=>s+effective(r).in,0),adjs=data.filter(isAdjust),adjTotal=adjs.reduce((s,r)=>s+effective(r).amount,0);$('#totalOut').textContent=money(out);$('#totalIn').textContent=money(inc);$('#netTotal').textContent=money(inc-out);$('#adjustTotal').textContent=money(adjTotal);$('#trxCount').textContent=num(data.length);$('#inCount').textContent=`${data.filter(r=>effective(r).in!==0).length} transaksi masuk efektif`;$('#outCount').textContent=`${data.filter(r=>effective(r).out!==0).length} transaksi keluar efektif`;$('#adjustCount').textContent=`${adjs.length} adjust kembali`;$('#bankCount').textContent=`${new Set(data.map(r=>r.bank)).size} Bank / QRIS`;const unknown=data.filter(r=>!r.known);$('#unknownAlert').style.display=unknown.length?'flex':'none';$('#unknownText').textContent=unknown.length?`${unknown.length} transaksi Bank / QRIS belum terbaca. Perlu dicek supaya rekap tidak salah.`:''}
-function barHTML(items){if(!items.length)return`<div class='empty'>Belum ada data.</div>`;const top=items.slice(0,7),max=Math.max(...top.map(x=>x.volume),1);return top.map(x=>`<div class='rowbar'><div class='rowtop'><strong>${esc(x.name)}</strong><span>${money(x.net)}</span></div><div class='bar'><i style='width:${Math.max(3,x.volume/max*100)}%'></i></div></div>`).join('')}
-function renderOverview(data){const bg=group(data,'bank'),cg=group(data,'category');$('#bankBars').innerHTML=barHTML(bg);$('#categoryBars').innerHTML=barHTML(cg);const unknown=data.filter(r=>!r.known).length,adj=data.filter(isAdjust).length,normal=data.length-adj;$('#auditBox').innerHTML=`<div class='metric-line'><span>Transaksi normal</span><strong>${num(normal)}</strong></div><div class='metric-line'><span>ADJUST KEMBALI</span><strong class='adjust'>${num(adj)}</strong></div><div class='metric-line'><span>Bank / QRIS belum terbaca</span><strong class='${unknown?'out':'in'}'>${num(unknown)}</strong></div><div class='metric-line'><span>Category unik</span><strong>${num(new Set(data.map(r=>r.category)).size)}</strong></div><div class='metric-line'><span>Bank / QRIS unik</span><strong>${num(new Set(data.map(r=>r.bank)).size)}</strong></div>`}
-function summaryTable(items,label){if(!items.length)return`<div class='empty'>Belum ada data.</div>`;return`<table><thead><tr><th>${label}</th><th>TRX</th><th style='text-align:right'>Masuk</th><th style='text-align:right'>Keluar</th><th style='text-align:right'>Selisih</th><th>Adjust</th></tr></thead><tbody>${items.map(x=>`<tr><td><strong>${esc(x.name)}</strong></td><td>${num(x.count)}</td><td class='money in'>${money(x.in)}</td><td class='money out'>${money(x.out)}</td><td class='money net'>${money(x.net)}</td><td>${x.adjust?`<span class='badge adj'>${x.adjust}</span>`:'—'}</td></tr>`).join('')}</tbody></table>`}
-function renderSummaries(data){$('#bankSummary').innerHTML=summaryTable(group(data,'bank'),'Bank / QRIS');$('#categorySummary').innerHTML=summaryTable(group(data,'category'),'Category')}
-function bankBadge(r){return`<span class='badge ${r.type==='qris'?'qris':r.type==='unknown'?'unknown':''}'>${esc(r.bank)}</span>`}
-function renderDetail(data){const pages=Math.max(1,Math.ceil(data.length/pageSize));if(detailPage>pages)detailPage=pages;const start=(detailPage-1)*pageSize,slice=data.slice(start,start+pageSize);$('#detailBody').innerHTML=slice.map((r,i)=>{const e=effective(r);return`<tr class='clickable' data-id='${r.id}'><td>${start+i+1}</td><td>${esc(r.dateTime)}</td><td>${bankBadge(r)}</td><td class='money out'>${e.out!==0?money(e.out):'—'}</td><td class='money in'>${e.in!==0?money(e.in):'—'}</td><td>${esc(r.category)} ${e.adjusted?`<span class='badge adj'>ADJUST</span>`:''}</td></tr>`}).join('');$('#detailEmpty').style.display=slice.length?'none':'block';$('#rowInfo').textContent=`${data.length} dari ${rows.length} data · klik baris untuk Details`;$('#pageInfo').textContent=`Halaman ${detailPage} / ${pages}`;$('#prevPage').disabled=detailPage<=1;$('#nextPage').disabled=detailPage>=pages;$$('#detailBody tr').forEach(tr=>tr.onclick=()=>openDetail(Number(tr.dataset.id)))}
-function renderAdjust(data){const ad=data.filter(isAdjust);$('#adjustBody').innerHTML=ad.map(r=>{const e=effective(r);return`<tr><td>${esc(r.dateTime)}</td><td>${bankBadge(r)}</td><td><span class='badge adj'>${e.source}</span></td><td class='money adjust'>${money(e.amount)}</td><td>${esc(e.effect)}</td></tr>`}).join('');$('#adjustEmpty').style.display=ad.length?'none':'block'}
-function renderAll(){const data=filtered();renderCards(data);renderOverview(data);renderSummaries(data);renderDetail(data);renderAdjust(data)}
-function processData(){try{rows=parseInput($('#rawInput').value);selectedBank='';detailPage=1;localStorage.setItem('meganxs_raw_v3',$('#rawInput').value);refreshOptions();renderAll();setStatus(`${rows.length} transaksi berhasil dibaca`,'ok')}catch(e){rows=[];selectedBank='';refreshOptions();renderAll();setStatus(e.message,'err')}}
-function resetFilter(){selectedBank='';$('#searchInput').value='';$('#categoryFilter').value='';$('#directionFilter').value='';$('#dateFilter').value='';detailPage=1;refreshOptions();renderAll()}
-function openDetail(id){const r=rows.find(x=>x.id===id);if(!r)return;const e=effective(r);$('#modalBody').innerHTML=`<div class='detail-grid'><div class='key'>Date Time</div><div>${esc(r.dateTime)}</div><div class='key'>Bank / QRIS</div><div>${bankBadge(r)}</div><div class='key'>Category</div><div>${esc(r.category)}</div><div class='key'>Debit Asli</div><div>${money(r.debit)}</div><div class='key'>Credit Asli</div><div>${money(r.credit)}</div><div class='key'>Keluar Efektif</div><div class='out'>${money(e.out)}</div><div class='key'>Masuk Efektif</div><div class='in'>${money(e.in)}</div><div class='key'>Details</div><div class='detail-text'>${esc(r.details)}</div></div>`;$('#modal').classList.add('open')}
-function exportCSV(){const data=filtered();if(!data.length){setStatus('Tidak ada data untuk diexport','err');return}const q=v=>`"${String(v??'').replaceAll('"','""')}"`,head=['Date Time','Bank / QRIS','Uang Keluar Efektif','Uang Masuk Efektif','Category','Debit Asli','Credit Asli','Adjust','Details'],csv=[head.map(q).join(','),...data.map(r=>{const e=effective(r);return[r.dateTime,r.bank,e.out,e.in,r.category,r.debit,r.credit,e.adjusted?'YA':'TIDAK',r.details].map(q).join(',')})].join('\n'),blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='MegaNXS-V4-Rekap.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
-function readFile(file){if(!file)return;const ext=file.name.split('.').pop().toLowerCase();if(!['csv','tsv','txt'].includes(ext)){setStatus('Gunakan CSV / TSV / TXT. Untuk Excel, copy lalu paste tabelnya.','err');return}const rd=new FileReader;rd.onload=()=>{$('#rawInput').value=rd.result;processData()};rd.onerror=()=>setStatus('File gagal dibaca','err');rd.readAsText(file)}
-$('#processBtn').onclick=processData;$('#clearBtn').onclick=()=>{if(!confirm('Bersihkan semua data rekap di browser ini?'))return;rows=[];selectedBank='';$('#rawInput').value='';localStorage.removeItem('meganxs_raw_v3');resetFilter();setStatus('Data sudah dibersihkan','info')};$('#exportBtn').onclick=exportCSV;$('#resetFilter').onclick=resetFilter;['searchInput','categoryFilter','directionFilter','dateFilter'].forEach(id=>$('#'+id).addEventListener(id==='searchInput'?'input':'change',()=>{detailPage=1;renderAll()}));$('#prevPage').onclick=()=>{if(detailPage>1){detailPage--;renderAll()}};$('#nextPage').onclick=()=>{const p=Math.ceil(filtered().length/pageSize);if(detailPage<p){detailPage++;renderAll()}};$$('.tab').forEach(t=>t.onclick=()=>{activeTab=t.dataset.tab;$$('.tab').forEach(x=>x.classList.toggle('active',x===t));$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+activeTab))});$('#unknownBtn').onclick=()=>{selectedBank='BELUM TERBACA';detailPage=1;refreshOptions();renderAll();$$('.tab').find(t=>t.dataset.tab==='detail').click()};$('#fileInput').onchange=e=>readFile(e.target.files[0]);const dz=$('#dropzone');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));dz.addEventListener('drop',e=>readFile(e.dataTransfer.files[0]));$('#closeModal').onclick=()=>$('#modal').classList.remove('open');$('#modal').onclick=e=>{if(e.target===$('#modal'))$('#modal').classList.remove('open')};addEventListener('keydown',e=>{if(e.key==='Escape')$('#modal').classList.remove('open')});const saved=localStorage.getItem('meganxs_raw_v3');if(saved){$('#rawInput').value=saved;try{rows=parseInput(saved);setStatus(`${rows.length} transaksi tersimpan`,'ok')}catch{}}refreshOptions();renderAll();
-</script>
+<div class="modal" id="modal">
+  <div class="modal-card">
+    <div class="modal-head"><strong>Detail Transaksi</strong><button class="btn small" id="closeModal">Tutup</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="app-v41.js"></script>
 </body>
 </html>
