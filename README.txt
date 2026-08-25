@@ -1,5 +1,5 @@
-MEGANXS V4 PROFESSIONAL
-======================
+MEGANXS V4.1 PROFESSIONAL
+=========================
 
 FITUR UTAMA
 - Dashboard 5 KPI: Uang Masuk, Uang Keluar, Selisih, Adjustment, Transaksi.
@@ -9,7 +9,9 @@ FITUR UTAMA
 - Warning otomatis jika Details tidak berhasil dibaca sebagai Bank / QRIS.
 - Detail transaksi dapat diklik untuk melihat Details serta debit/credit asli.
 - Pagination detail transaksi.
-- Upload CSV / TSV / TXT atau paste langsung dari Excel.
+- Upload Excel langsung: XLSX / XLS.
+- Tetap mendukung CSV / TSV / TXT dan paste langsung dari Excel.
+- Sheet Excel dengan header Mega akan dideteksi otomatis.
 - Export CSV dengan nilai efektif dan nilai asli untuk audit.
 
 ATURAN BANK / QRIS
@@ -28,4 +30,7 @@ ATURAN ADJUST KEMBALI
 FORMAT INPUT
 Date Time | Details | Debit | Credit | Category
 
-Catatan: file XLSX belum dibaca langsung. Untuk Excel, copy tabel lalu paste ke kotak input, atau simpan sebagai CSV/TSV.
+UPLOAD EXCEL
+- Pilih file .xlsx atau .xls langsung dari tombol Pilih File.
+- MegaNXS mencari sheet yang memiliki header Date Time, Details, Debit, Credit, Category.
+- Header dapat berada dalam 30 baris pertama sheet.
